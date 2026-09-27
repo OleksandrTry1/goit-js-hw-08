@@ -70,7 +70,6 @@ displayGallery();
 
 const galleryLinks = document.querySelectorAll('.gallery a');
 
-// Инициализируем SimpleLightbox с отключенным интерфейсом управления
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
