@@ -51,31 +51,40 @@ const images = [
 ];
 
 function displayGallery() {
-  const formattedData = images.map((image) => {
-    return `<li class="gallery-item">
+  const formattedData = images
+    .map((image) => {
+      return `<li class="gallery-item">
   <a class="gallery-link" href="${image.original}">
     <img
       class="gallery-image"
       src="${image.preview}"
+      data-source="${image.original}"
       alt="${image.description}"
     />
   </a>
 </li>`;
-  }).join('');
-  
+    })
+    .join('');
+
   refs.galleryList.innerHTML = formattedData;
 }
 
 displayGallery();
 
-const galleryLinks = document.querySelectorAll('.gallery a');
+refs.galleryList.addEventListener('click', onGalleryItemClick);
 
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-  
-  nav: false,
-  close: false,
-  captions: false,
-  showCounter: false
-})
+function onGalleryItemClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+
+  const largeImageUrl = event.target.dataset.source;
+
+  const instance = basicLightbox.create(`
+    <img src="${largeImageUrl}" width="800" height="600">
+  `);
+
+  instance.show();
+}
